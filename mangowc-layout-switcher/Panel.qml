@@ -47,7 +47,7 @@ Item {
 
   property bool applyToAll: false
   property var selectedMonitors: []
-  property real contentPreferredWidth: 500 * Style.uiScaleRatio 
+  property real contentPreferredWidth: 360 * Style.uiScaleRatio 
   property real contentPreferredHeight: panelContent.implicitHeight + Style.margin2L
 
   function toggleMonitor(monitorName) {
@@ -116,13 +116,13 @@ Item {
 
             NIcon {
               icon: "layout-grid"
-              pointSize: Style.fontSizeL
+              pointSize: Style.fontSizeXL
               color: Color.mPrimary
             }
 
             NText {
               text: "Switch Layout"
-              pointSize: Style.fontSizeL
+              pointSize: Style.fontSizeXL
               font.weight: Style.fontWeightBold
               color: Color.mOnSurface
               Layout.fillWidth: true
@@ -136,7 +136,7 @@ Item {
 
           NText {
             text: "Apply to all monitors"
-            pointSize: Style.fontSizeM
+            pointSize: Style.fontSizeL
             color: Color.mOnSurfaceVariant
             Layout.fillWidth: true
           }
@@ -163,7 +163,7 @@ Item {
 
           NText {
             text: "Select monitors"
-            pointSize: Style.fontSizeM
+            pointSize: Style.fontSizeL
             color: Color.mOnSurfaceVariant
           }
 
@@ -177,7 +177,7 @@ Item {
               delegate: Rectangle {
                 id: monitorBtn
                 width: monitorContent.implicitWidth + (Style.marginM * 2)
-                height: 44 * Style.uiScaleRatio
+                height: 36 * Style.uiScaleRatio
                 
                 // NEW: Show as selected if individually picked OR if Apply to All is active
                 property bool isSelected: root.applyToAll || root.selectedMonitors.includes(modelData)
@@ -201,7 +201,7 @@ Item {
                   NIcon {
                     visible: isSelected
                     icon: "check"
-                    pointSize: Style.fontSizeS
+                    pointSize: Style.fontSizeM
                     color: Color.mOnPrimary
                   }
 
@@ -209,7 +209,7 @@ Item {
                     text: modelData
                     color: isSelected ? Color.mOnPrimary : Color.mOnSurface
                     font.weight: Font.Medium
-                    pointSize: Style.fontSizeM
+                    pointSize: Style.fontSizeS
                   }
                 }
 
@@ -237,7 +237,7 @@ Item {
             delegate: Rectangle {
               id: layoutBtn
               width: (root.contentPreferredWidth - Style.marginL * 2 - Style.marginS * 2) / 3
-              height: 72 * Style.uiScaleRatio
+              height: 56 * Style.uiScaleRatio
               
               property bool isActive: {
                 if (root.selectedMonitors.length === 0) {
@@ -269,7 +269,7 @@ Item {
                 NIcon {
                   Layout.alignment: Qt.AlignHCenter
                   icon: root.iconMap[modelData.code] || "layout-board"
-                  pointSize: Style.fontSizeM
+                  pointSize: Style.fontSizeL
                   color: layoutBtn.isActive ? Color.mOnPrimary : Color.mOnSurface
                 }
 
@@ -278,7 +278,7 @@ Item {
                   text: modelData.name
                   color: layoutBtn.isActive ? Color.mOnPrimary : Color.mOnSurface
                   font.weight: Font.Medium
-                  pointSize: Style.fontSizeXS
+                  pointSize: Style.fontSizeS
                 }
               }
 
