@@ -12,7 +12,7 @@ Item {
 
   readonly property var geometryPlaceholder: panelContainer
   property real contentPreferredWidth: 360 * Style.uiScaleRatio
-  readonly property real maxHeight: 580 * Style.uiScaleRatio
+  readonly property real maxHeight: 680 * Style.uiScaleRatio
   property real contentPreferredHeight: Math.min(contentColumn.implicitHeight + Style.marginL * 2, maxHeight)
   property bool panelReady: false
   Behavior on contentPreferredHeight {
@@ -428,9 +428,7 @@ Item {
                 text: {
                   if (!nextPrayerName) return ""
                   let label = nextPrayerName
-                  if (nextPrayerName === "Maghrib" && isRamadan)
-                    label = pluginApi?.tr("panel.iftar") || "Iftar"
-                  else if (nextPrayerName === "Dhuhr" && isJumuah)
+                  if (nextPrayerName === "Dhuhr" && isJumuah)
                     label = pluginApi?.tr("panel.jumuah") || "Jumu'ah"
                   return prayerNow ? `${label} — ${pluginApi?.tr("panel.now") || "Now"}` : `${label} in`
                 }
