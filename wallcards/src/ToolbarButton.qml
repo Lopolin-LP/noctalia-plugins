@@ -29,6 +29,7 @@ Rectangle {
 
     Text {
       visible: !root.hasCustomContent && root.icon !== ""
+
       anchors.verticalCenter: parent.verticalCenter
       text: root.icon
       color: root.accentColor
@@ -38,6 +39,7 @@ Rectangle {
 
     Text {
       visible: !root.hasCustomContent && root.label !== ""
+
       anchors.verticalCenter: parent.verticalCenter
       text: root.label
       color: root.accentColor
@@ -47,12 +49,14 @@ Rectangle {
 
     Loader {
       id: customLoader
+
       anchors.verticalCenter: parent.verticalCenter
       sourceComponent: null
     }
 
     Rectangle {
       visible: root.hotkey !== ""
+
       width: 14
       height: 14
       radius: 3
@@ -63,11 +67,10 @@ Rectangle {
         anchors.centerIn: parent
         text: root.hotkey
         color: Qt.alpha(root.accentColor, root.active ? 1 : 0.7)
-        font {
-          family: Settings.data.ui.fontDefault
-          pixelSize: 8
-          bold: true
-        }
+
+        font.family: Settings.data.ui.fontDefault
+        font.pixelSize: 8
+        font.bold: true
       }
     }
   }

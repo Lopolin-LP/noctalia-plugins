@@ -107,7 +107,7 @@ PanelWindow {
 
           var cmd;
           if (utils.isVideo(fileName))
-            cmd = "[ -f '" + thumbnail + "' ] || ffmpeg -y -i '" + filePath + "' -vf 'select=eq(n\\,0),scale=-1:500' -frames:v 1 -q:v 2 '" + thumbnail + "' </dev/null 2>/dev/null";
+            cmd = "[ -f '" + thumbnail + "' ] || ffmpeg -y -i '" + filePath + "' -vf 'select=eq(n\\,0),scale=-1:1080' -frames:v 1 -q:v 2 '" + thumbnail + "' </dev/null 2>/dev/null";
           else
             cmd = "[ -f '" + thumbnail + "' ] || magick '" + filePath + "' -resize x500 -quality 95 '" + thumbnail + "'";
 
@@ -138,11 +138,7 @@ PanelWindow {
 
     if (utils.isVideo(fileName))
       console.log("Not implemented yet. Maybye use video wallpaper plugin?");
-    else
-    // proc = processComponent.createObject(null, {
-    //   "command": ["bash", "-c", "pkill -x mpvpaper 2>/dev/null || true; sleep 0.2; for m in $(hyprctl monitors | awk '/^Monitor /{print $2}'); do setsid -f mpvpaper -p -f -o '--loop-file=inf' \"$m\" '" + filePath + "' >/dev/null 2>&1 & done"]
-    // });
-    {
+    else {
       var screen = Settings.data.wallpaper.setWallpaperOnAllMonitors ? undefined : targetScreen.name;
       WallpaperService.changeWallpaper(filePath, screen);
       WallpaperService.applyFavoriteTheme(path, screen);
@@ -477,6 +473,18 @@ PanelWindow {
             }
           }
 
+          onModelIndexChanged: {
+              var newSource = root.filteredCount > 0
+                  ? `file://${cacheDir}/${utils.thumbnailName(root.getFileName(modelIndex))}`
+                  : "";
+              if (img.source.toString() !== newSource) {
+                  imgOld.source = img.source;
+                  imgOld.opacity = 1;
+                  crossfade.restart();
+                  img.source = newSource;
+              }
+          }
+
           // TODO: Needed for smooth transition, but I am not sure if it could be done without.
           onTargetSourceChanged: {
             if (img.source.toString() !== "" && img.source.toString() !== targetSource) {
@@ -517,7 +525,7 @@ PanelWindow {
 
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectCrop
-                cache: true
+                cache: !root.loading
                 smooth: true
                 asynchronous: true
                 sourceSize.width: cardStack.centerWidth
@@ -529,7 +537,7 @@ PanelWindow {
 
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectCrop
-                cache: true
+                cache: !root.loading
                 smooth: true
                 asynchronous: true
                 sourceSize.width: cardStack.centerWidth

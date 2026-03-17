@@ -1,5 +1,5 @@
-import QtQuick
 import qs.Commons
+import QtQuick
 
 Rectangle {
   id: root
@@ -20,10 +20,13 @@ Rectangle {
 
   Row {
     id: badgeRow
+
     anchors.centerIn: parent
     spacing: 5
+
     Text {
-      visible: root.icon !== ""
+      visible: root.icon
+
       anchors.verticalCenter: parent.verticalCenter
       text: root.icon
       color: root.iconColor
@@ -31,7 +34,8 @@ Rectangle {
       font.pixelSize: root.fontSize
     }
     Text {
-      visible: root.text !== ""
+      visible: root.text
+
       anchors.verticalCenter: parent.verticalCenter
       text: root.text
       color: root.textColor

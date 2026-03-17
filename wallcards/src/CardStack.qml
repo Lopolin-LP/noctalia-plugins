@@ -37,16 +37,20 @@ Item {
   function slotToX(slot) {
     if (slot >= 0 && slot <= 1)
       return centerX * (1 - slot) + (centerX + centerWidth + stripGap) * slot;
+
     if (slot >= -1 && slot < 0)
       return centerX * (1 + slot) + (centerX - stripGap - stripWidth) * -slot;
+
     if (slot > 1) {
       var firstRight = centerX + centerWidth + stripGap;
       return firstRight + (slot - 1) * (stripWidth + stripGap);
     }
+
     if (slot < -1) {
       var firstLeft = centerX - stripGap - stripWidth;
       return firstLeft + (slot + 1) * (stripWidth + stripGap);
     }
+
     return 0;
   }
 
@@ -57,6 +61,7 @@ Item {
 
   function randomJump() {
     var rnd = Math.floor(Math.random() * filteredCount);
+
     if (rnd === currentIndex)
       rnd = (rnd + 1) % filteredCount;
     navigateTo(rnd);
@@ -65,6 +70,7 @@ Item {
   function navigateTo(idx) {
     var newIdx = wrappedIndex(idx);
     var diff = 0;
+
     if (filteredCount > 0) {
       diff = newIdx - currentIndex;
       var half = filteredCount / 2;
@@ -73,9 +79,11 @@ Item {
       else if (diff < -half)
         diff += filteredCount;
     }
+
     runningIndex += diff;
     animationIndex = runningIndex;
     currentIndex = newIdx;
+
     if (livePreview)
       applyRequested(root.getFilePath(currentIndex), false);
   }
