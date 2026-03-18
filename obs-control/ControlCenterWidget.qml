@@ -6,15 +6,16 @@ Item {
   property var pluginApi
   property var screen
 
-  readonly property var service: pluginApi ? pluginApi.mainInstance : null
-  readonly property bool showShortcut: Boolean(service && service.showInControlCenter)
+  readonly property var service: root.pluginApi?.mainInstance
+  readonly property bool showShortcut: root.service?.showInControlCenter ?? false
 
-  visible: showShortcut
-  implicitWidth: showShortcut ? button.implicitWidth : 0
-  implicitHeight: showShortcut ? button.implicitHeight : 0
+  visible: root.showShortcut
+  implicitWidth: root.showShortcut ? button.implicitWidth : 0
+  implicitHeight: root.showShortcut ? button.implicitHeight : 0
 
   ObsButton {
     id: button
+
     anchors.fill: parent
     visible: root.showShortcut
     pluginApi: root.pluginApi

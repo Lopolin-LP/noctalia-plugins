@@ -4,7 +4,6 @@ import Quickshell
 import qs.Commons
 import qs.Services.UI
 import qs.Widgets
-import "I18n.js" as I18n
 import "Ui.js" as Ui
 
 Item {
@@ -15,58 +14,53 @@ Item {
   property string widgetId: ""
   property string section: ""
 
-  readonly property var service: pluginApi ? pluginApi.mainInstance : null
-  readonly property bool obsRunning: Boolean(service && service.obsRunning)
-  readonly property bool websocket: Boolean(service && service.websocket)
-  readonly property bool recording: Boolean(service && service.recording)
-  readonly property bool replayBuffer: Boolean(service && service.replayBuffer)
-  readonly property bool streaming: Boolean(service && service.streaming)
-  readonly property int recordDurationMs: Number(service && service.displayRecordDurationMs ? service.displayRecordDurationMs : 0)
-  readonly property int streamDurationMs: Number(service && service.displayStreamDurationMs ? service.displayStreamDurationMs : 0)
-  readonly property string primaryActionText: service ? service.primaryActionText : "opens controls"
-  readonly property string obsLogoSource: pluginApi ? ("file://" + pluginApi.pluginDir + "/assets/obs-logo.svg") : ""
-  readonly property string barLabelMode: service ? String(service.barLabelMode) : "short-label"
-  readonly property bool showElapsedInBar: Boolean(service && service.showElapsedInBar)
+  readonly property var service: root.pluginApi?.mainInstance
+  readonly property bool actionBusy: root.service?.actionBusy ?? false
+  readonly property bool recording: root.service?.recording ?? false
+  readonly property bool replayBuffer: root.service?.replayBuffer ?? false
+  readonly property bool streaming: root.service?.streaming ?? false
+  readonly property int recordDurationMs: root.service?.displayRecordDurationMs ?? 0
+  readonly property int streamDurationMs: root.service?.displayStreamDurationMs ?? 0
+  readonly property string primaryActionText: root.service?.primaryActionText ?? root.pluginApi?.tr("actions.primary.open_controls") ?? ""
+  readonly property string obsLogoSource: root.pluginApi ? `file://${root.pluginApi.pluginDir}/assets/obs-logo.svg` : ""
+  readonly property string barLabelMode: root.service?.barLabelMode ?? "short-label"
+  readonly property bool showElapsedInBar: root.service?.showElapsedInBar ?? false
   readonly property var outputState: ({
-    recording: recording,
-    replayBuffer: replayBuffer,
-    streaming: streaming,
-    recordDurationMs: recordDurationMs,
-    streamDurationMs: streamDurationMs,
+    recording: root.recording,
+    replayBuffer: root.replayBuffer,
+    streaming: root.streaming,
+    recordDurationMs: root.recordDurationMs,
+    streamDurationMs: root.streamDurationMs,
   })
 
-  readonly property string screenName: screen?.name ?? ""
-  readonly property string barPosition: Settings.getBarPositionForScreen(screenName)
-  readonly property bool isBarVertical: barPosition === "left" || barPosition === "right"
-  readonly property real capsuleHeight: Style.getCapsuleHeightForScreen(screenName)
-  readonly property real barFontSize: Style.getBarFontSizeForScreen(screenName)
+  readonly property string screenName: root.screen?.name ?? ""
+  readonly property string barPosition: Settings.getBarPositionForScreen(root.screenName)
+  readonly property bool isBarVertical: root.barPosition === "left" || root.barPosition === "right"
+  readonly property real capsuleHeight: Style.getCapsuleHeightForScreen(root.screenName)
+  readonly property real barFontSize: Style.getBarFontSizeForScreen(root.screenName)
 
-  function tr(key, fallback, interpolations) {
-    return I18n.tr(pluginApi, key, fallback, interpolations)
-  }
+  readonly property var activeOutputs: Ui.activeOutputs(root.pluginApi, root.outputState)
+  readonly property string statusTooltip: Ui.barTooltip(root.pluginApi, root.outputState, root.primaryActionText)
+  readonly property bool showObsLogo: root.activeOutputs.length === 0
+  readonly property string displayText: Ui.barDisplayText(root.pluginApi, root.outputState, root.barLabelMode, root.showElapsedInBar)
+  readonly property color accentColor: Ui.accentBackgroundColor(root.outputState, Color, Color.mOnSurface)
+  readonly property string primaryIconName: Ui.primaryIcon(root.outputState)
 
-  readonly property var activeOutputs: Ui.activeOutputs(tr, outputState, Color)
-  readonly property string statusTooltip: Ui.barTooltip(tr, outputState, Color, primaryActionText)
-  readonly property bool showObsLogo: activeOutputs.length === 0
-  readonly property string displayText: Ui.barDisplayText(tr, outputState, Color, barLabelMode, showElapsedInBar)
-  readonly property color accentColor: Ui.accentBackgroundColor(outputState, Color, Color.mOnSurface)
-  readonly property string primaryIconName: Ui.primaryIcon(outputState)
-
-  readonly property bool showInBar: Boolean(service && service.showInBar)
-  readonly property real contentWidth: showInBar
-                                      ? (isBarVertical
-                                          ? capsuleHeight
+  readonly property bool showInBar: root.service?.showInBar ?? false
+  readonly property real contentWidth: root.showInBar
+                                      ? (root.isBarVertical
+                                          ? root.capsuleHeight
                                           : Math.round(content.implicitWidth + Style.marginM * 2))
                                       : 0
-  readonly property real contentHeight: showInBar
-                                       ? (isBarVertical
+  readonly property real contentHeight: root.showInBar
+                                       ? (root.isBarVertical
                                            ? Math.round(content.implicitHeight + Style.marginM * 2)
-                                           : capsuleHeight)
+                                           : root.capsuleHeight)
                                        : 0
 
-  visible: showInBar
-  implicitWidth: contentWidth
-  implicitHeight: contentHeight
+  visible: root.showInBar
+  implicitWidth: root.contentWidth
+  implicitHeight: root.contentHeight
 
   Rectangle {
     id: visualCapsule
@@ -83,12 +77,14 @@ Item {
 
     Item {
       id: content
+
       anchors.centerIn: parent
       implicitWidth: horizontalContent.visible ? horizontalContent.implicitWidth : verticalContent.implicitWidth
       implicitHeight: horizontalContent.visible ? horizontalContent.implicitHeight : verticalContent.implicitHeight
 
       RowLayout {
         id: horizontalContent
+
         anchors.centerIn: parent
         visible: !root.isBarVertical
         spacing: Style.marginS
@@ -129,6 +125,7 @@ Item {
 
       ColumnLayout {
         id: verticalContent
+
         anchors.centerIn: parent
         visible: root.isBarVertical
         spacing: Style.marginXS
@@ -179,28 +176,28 @@ Item {
     cursorShape: Qt.PointingHandCursor
 
     onEntered: {
-      TooltipService.show(root, root.statusTooltip, "auto");
+      TooltipService.show(root, root.statusTooltip, "auto")
     }
 
     onExited: {
-      TooltipService.hide(root);
+      TooltipService.hide(root)
     }
 
     onPressed: {
-      TooltipService.hide(root);
+      TooltipService.hide(root)
     }
 
     onClicked: function(mouse) {
-      if (!service) {
-        return;
+      if (!root.service || root.actionBusy) {
+        return
       }
 
       if (mouse.button === Qt.LeftButton) {
-        service.runPrimaryAction(screen, root);
+        root.service.runPrimaryAction(root.screen, root)
       } else if (mouse.button === Qt.RightButton) {
-        service.runSecondaryAction();
+        root.service.runSecondaryAction()
       } else if (mouse.button === Qt.MiddleButton) {
-        service.runMiddleAction();
+        root.service.runMiddleAction()
       }
     }
   }

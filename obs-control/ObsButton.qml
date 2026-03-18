@@ -2,7 +2,6 @@ import QtQuick
 import Quickshell
 import qs.Commons
 import qs.Widgets
-import "I18n.js" as I18n
 import "Ui.js" as Ui
 
 NIconButtonHot {
@@ -11,36 +10,33 @@ NIconButtonHot {
   property ShellScreen screen
   property var pluginApi
 
-  readonly property var service: pluginApi ? pluginApi.mainInstance : null
-  readonly property bool obsRunning: Boolean(service && service.obsRunning)
-  readonly property bool websocket: Boolean(service && service.websocket)
-  readonly property bool recording: Boolean(service && service.recording)
-  readonly property bool replayBuffer: Boolean(service && service.replayBuffer)
-  readonly property bool streaming: Boolean(service && service.streaming)
-  readonly property bool connected: obsRunning && websocket
-  readonly property string primaryActionText: service ? service.primaryActionText : "opens controls"
-  readonly property string obsLogoSource: pluginApi ? ("file://" + pluginApi.pluginDir + "/assets/obs-logo.svg") : ""
+  readonly property var service: root.pluginApi?.mainInstance
+  readonly property bool actionBusy: root.service?.actionBusy ?? false
+  readonly property bool obsRunning: root.service?.obsRunning ?? false
+  readonly property bool websocket: root.service?.websocket ?? false
+  readonly property bool recording: root.service?.recording ?? false
+  readonly property bool replayBuffer: root.service?.replayBuffer ?? false
+  readonly property bool streaming: root.service?.streaming ?? false
+  readonly property bool connected: root.obsRunning && root.websocket
+  readonly property string primaryActionText: root.service?.primaryActionText ?? root.pluginApi?.tr("actions.primary.open_controls") ?? ""
+  readonly property string obsLogoSource: root.pluginApi ? `file://${root.pluginApi.pluginDir}/assets/obs-logo.svg` : ""
   readonly property var outputState: ({
-    recording: recording,
-    replayBuffer: replayBuffer,
-    streaming: streaming,
+    recording: root.recording,
+    replayBuffer: root.replayBuffer,
+    streaming: root.streaming,
     recordDurationMs: 0,
     streamDurationMs: 0,
   })
 
-  function tr(key, fallback, interpolations) {
-    return I18n.tr(pluginApi, key, fallback, interpolations)
-  }
-
-  readonly property var activeOutputs: Ui.activeOutputs(tr, outputState, Color)
-  readonly property bool hasActiveOutput: Ui.hasActiveOutputs(outputState)
-  readonly property string currentIconName: Ui.primaryIcon(outputState)
+  readonly property var activeOutputs: Ui.activeOutputs(root.pluginApi, root.outputState)
+  readonly property bool hasActiveOutput: Ui.hasActiveOutputs(root.outputState)
+  readonly property string currentIconName: Ui.primaryIcon(root.outputState)
 
   icon: ""
-  hot: hasActiveOutput
-  colorBgHot: Ui.accentBackgroundColor(outputState, Color, Color.mSecondary)
-  colorFgHot: Ui.accentForegroundColor(outputState, Color, Color.mOnSecondary)
-  tooltipText: Ui.controlCenterTooltip(tr, outputState, Color, connected, obsRunning, primaryActionText)
+  hot: root.hasActiveOutput
+  colorBgHot: Ui.accentBackgroundColor(root.outputState, Color, Color.mSecondary)
+  colorFgHot: Ui.accentForegroundColor(root.outputState, Color, Color.mOnSecondary)
+  tooltipText: Ui.controlCenterTooltip(root.pluginApi, root.outputState, root.connected, root.obsRunning, root.primaryActionText)
 
   NIcon {
     anchors.centerIn: parent
@@ -49,9 +45,10 @@ NIconButtonHot {
     pointSize: Math.max(1, Math.round(root.width * 0.48))
     color: {
       if ((root.enabled && root.hovering) || root.pressed) {
-        return Color.mOnHover;
+        return Color.mOnHover
       }
-      return Ui.accentForegroundColor(root.outputState, Color, Color.mOnSecondary);
+
+      return Ui.accentForegroundColor(root.outputState, Color, Color.mOnSecondary)
     }
   }
 
@@ -71,25 +68,27 @@ NIconButtonHot {
   }
 
   onClicked: {
-    if (!service || !pluginApi || !screen) {
-      return;
+    if (!root.service || !root.screen || root.actionBusy) {
+      return
     }
 
-    service.runPrimaryAction(screen, root);
+    root.service.runPrimaryAction(root.screen, root)
   }
 
   onRightClicked: {
-    if (!service) {
-      return;
+    if (!root.service || root.actionBusy) {
+      return
     }
 
-    service.runSecondaryAction();
+    root.service.runSecondaryAction()
   }
 
   onMiddleClicked: {
-    if (service) {
-      service.runMiddleAction();
+    if (!root.service || root.actionBusy) {
+      return
     }
+
+    root.service.runMiddleAction()
   }
 
   Rectangle {
