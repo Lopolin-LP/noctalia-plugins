@@ -115,7 +115,7 @@ Rectangle {
 
         NText {
           visible: textArea.text.length === 0 && !textArea.activeFocus
-          text: newNoteCard.pluginApi?.tr("editor.placeholder") || "Start writing in Markdown..."
+          text: newNoteCard.pluginApi?.tr("editor.placeholder")
           font.pointSize: Style.fontSizeS * Style.uiScaleRatio
           color: Qt.rgba(0, 0, 0, 0.3)
         }
@@ -137,7 +137,7 @@ Rectangle {
     NText {
       Layout.fillWidth: true
       horizontalAlignment: Text.AlignRight
-      text: newNoteCard.pluginApi?.tr("editor.hint") || "Ctrl+Enter save · Esc save"
+      text: newNoteCard.pluginApi?.tr("editor.hint")
       font.pointSize: (Style.fontSizeXS - 1) * Style.uiScaleRatio
       color: Qt.rgba(0, 0, 0, 0.3)
     }

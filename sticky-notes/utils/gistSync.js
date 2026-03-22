@@ -7,7 +7,7 @@ var API_BASE_URL = "https://api.github.com";
 function syncNotes(pluginApi, notes, callback) {
     var token = ((pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.githubToken) || "").trim();
     if (!token) {
-        callback(false, translate(pluginApi, "sync.errors.missing-token", "GitHub token is required before syncing."));
+        callback(false, pluginApi?.tr("sync.errors.missing-token"));
         return;
     }
 
@@ -54,7 +54,7 @@ function createOrFindGist(pluginApi, token, notes, callback) {
             }
 
             persistGistId(pluginApi, response.id);
-            callback(true, translate(pluginApi, "sync.success.created", "Created gist and synced notes."));
+            callback(true, pluginApi?.tr("sync.success.created"));
         });
     });
 }
@@ -72,7 +72,7 @@ function upsertGist(pluginApi, token, gist, notes, callback) {
         }
 
         persistGistId(pluginApi, response.id || gist.id);
-        callback(true, translate(pluginApi, "sync.success.updated", "Synced notes to GitHub Gist."));
+        callback(true, pluginApi?.tr("sync.success.updated"));
     });
 }
 
@@ -204,12 +204,3 @@ function formatError(response, status) {
     return "GitHub API request failed (" + status + ")";
 }
 
-function translate(pluginApi, key, fallback) {
-    if (pluginApi && pluginApi.tr) {
-        var result = pluginApi.tr(key);
-        if (result && result !== key)
-            return result;
-    }
-
-    return fallback;
-}

@@ -186,7 +186,7 @@ Item {
 
     if (!hasSyncToken()) {
       lastSyncOk = false;
-      lastSyncMessage = pluginApi.tr("sync.errors.missing-token") || "GitHub token is required before syncing.";
+      lastSyncMessage = pluginApi.tr("sync.errors.missing-token");
       lastSyncAt = Date.now();
 
       if (silent === true) {
@@ -201,7 +201,7 @@ Item {
     }
 
     syncInProgress = true;
-    lastSyncMessage = pluginApi.tr("sync.syncing") || "Syncing notes to GitHub Gist...";
+    lastSyncMessage = pluginApi.tr("sync.syncing");
 
     GistSync.syncNotes(pluginApi, syncNotes, function(success, message) {
       syncInProgress = false;

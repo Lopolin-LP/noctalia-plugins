@@ -116,7 +116,7 @@ Item {
         colorBg: Color.mPrimary
         colorFg: Color.mOnPrimary
         customRadius: 14 * Style.uiScaleRatio
-        tooltipText: root.pluginApi?.tr("notes.new") || "New Note"
+        tooltipText: root.pluginApi?.tr("notes.new")
 
         onClicked: {
           root.startCreating();

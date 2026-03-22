@@ -220,7 +220,7 @@ Item {
       NText {
         Layout.fillWidth: true
         horizontalAlignment: Text.AlignRight
-        text: root.pluginApi?.tr("editor.hint") || "Ctrl+S save"
+        text: root.pluginApi?.tr("editor.hint")
         visible: root.editing
         font.pointSize: (Style.fontSizeXS - 1) * Style.uiScaleRatio
         color: Qt.rgba(0, 0, 0, 0.35)

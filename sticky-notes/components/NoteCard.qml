@@ -193,7 +193,7 @@ Rectangle {
               hiddenCopyHelper.deselect();
               copyBtn.icon = "copy-check";
               resetCopyIconTimer.start();
-              ToastService.showNotice(noteCard.pluginApi?.tr("notes.copied") || "Copied to clipboard");
+              ToastService.showNotice(noteCard.pluginApi?.tr("notes.copied"));
             }
 
             Timer {
@@ -249,7 +249,7 @@ Rectangle {
 
       NText {
         Layout.alignment: Qt.AlignHCenter
-        text: noteCard.pluginApi?.tr("notes.delete-confirm") || "Delete this note?"
+        text: noteCard.pluginApi?.tr("notes.delete-confirm")
         color: "white"
         font.pointSize: Style.fontSizeM * Style.uiScaleRatio
       }
@@ -266,7 +266,7 @@ Rectangle {
           hoverColor: Qt.rgba(1, 1, 1, 0.3)
           textColor: "white"
           textHoverColor: "white"
-          text: noteCard.pluginApi?.tr("notes.cancel") || "Cancel"
+          text: noteCard.pluginApi?.tr("notes.cancel")
           fontSize: Style.fontSizeS * Style.uiScaleRatio
 
           onClicked: noteCard.confirmingDelete = false
@@ -280,7 +280,7 @@ Rectangle {
           hoverColor: "#E53935"
           textColor: "white"
           textHoverColor: "white"
-          text: noteCard.pluginApi?.tr("editor.delete") || "Delete"
+          text: noteCard.pluginApi?.tr("editor.delete")
           fontSize: Style.fontSizeS * Style.uiScaleRatio
 
           onClicked: {
@@ -404,7 +404,7 @@ Rectangle {
       NText {
         Layout.fillWidth: true
         horizontalAlignment: Text.AlignRight
-        text: noteCard.pluginApi?.tr("editor.hint") || "Ctrl+Enter save · Esc save"
+        text: noteCard.pluginApi?.tr("editor.hint")
         font.pointSize: (Style.fontSizeXS - 1) * Style.uiScaleRatio
         color: Qt.rgba(0, 0, 0, 0.3)
       }

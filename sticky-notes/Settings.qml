@@ -20,24 +20,24 @@ ColumnLayout {
 
   NToggle {
     Layout.fillWidth: true
-    label: pluginApi?.tr("settings.syncEnabled.label") || "Enable GitHub Gist sync"
-    description: pluginApi?.tr("settings.syncEnabled.desc") || "Automatically sync notes to a private gist after changes."
+    label: pluginApi?.tr("settings.syncEnabled.label")
+    description: pluginApi?.tr("settings.syncEnabled.desc")
     checked: root.valueSyncEnabled
     onToggled: checked => root.valueSyncEnabled = checked
   }
 
   NTextInput {
     Layout.fillWidth: true
-    label: pluginApi?.tr("settings.githubToken.label") || "GitHub Token"
-    description: pluginApi?.tr("settings.githubToken.desc") || "Personal access token with gist permission."
-    placeholderText: pluginApi?.tr("settings.githubToken.placeholder") || "ghp_xxx"
+    label: pluginApi?.tr("settings.githubToken.label")
+    description: pluginApi?.tr("settings.githubToken.desc")
+    placeholderText: pluginApi?.tr("settings.githubToken.placeholder")
     text: root.valueGithubToken
     onTextChanged: root.valueGithubToken = text
   }
 
   NText {
     Layout.fillWidth: true
-    text: pluginApi?.tr("settings.githubToken.help") || "The plugin creates or reuses a private gist named `noctalia-sticky-notes`. Each note is stored as one file whose filename is the note id."
+    text: pluginApi?.tr("settings.githubToken.help")
     pointSize: Style.fontSizeS
     color: Color.mOnSurfaceVariant
     wrapMode: Text.Wrap
@@ -49,7 +49,7 @@ ColumnLayout {
     spacing: Style.marginM
 
     NButton {
-      text: pluginApi?.tr("settings.syncNow") || "Sync now"
+      text: pluginApi?.tr("settings.syncNow")
       icon: "refresh"
       enabled: !mainInstance?.syncInProgress
       onClicked: {
@@ -65,7 +65,7 @@ ColumnLayout {
     NText {
       text: {
         if (mainInstance?.syncInProgress) {
-          return pluginApi?.tr("sync.syncing") || "Syncing notes to GitHub Gist...";
+          return pluginApi?.tr("sync.syncing");
         }
         return mainInstance?.lastSyncMessage || "";
       }
@@ -88,6 +88,6 @@ ColumnLayout {
     pluginApi.saveSettings();
 
     Logger.i("StickyNotes", "Settings saved");
-    ToastService.showNotice(pluginApi?.tr("settings.saved") || "Sticky Notes settings saved");
+    ToastService.showNotice(pluginApi?.tr("settings.saved"));
   }
 }
