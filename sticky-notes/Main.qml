@@ -42,21 +42,6 @@ Item {
     return notes;
   }
 
-  function withCurrentScreen(callback) {
-    if (!pluginApi) {
-      Logger.w("StickyNotes", "Plugin API not available for IPC request");
-      return;
-    }
-
-    pluginApi.withCurrentScreen(function(screen) {
-      if (!screen) {
-        Logger.w("StickyNotes", "No active screen available for IPC request");
-        return;
-      }
-
-      callback(screen);
-    });
-  }
 
   function loadStoredNotes() {
     if (!pluginApi)
@@ -229,8 +214,11 @@ Item {
     target: "plugin:sticky-notes"
 
     function toggle() {
-      root.withCurrentScreen(function(screen) {
-        root.pluginApi.togglePanel(screen);
+      if (!pluginApi) return;
+      pluginApi.withCurrentScreen(function(screen) {
+        if (screen) {
+          pluginApi.togglePanel(screen);
+        }
       });
     }
   }
