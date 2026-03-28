@@ -42,7 +42,6 @@
   "context": {
     "connect": "Connect",
     "disconnect": "Disconnect",
-    "refresh": "Refresh Status",
     "not-installed": "Tailscale not installed",
     "settings": "Settings",
     "copy-ip": "Copy IP",
@@ -73,8 +72,6 @@
     "title": "Tailscale Network",
     "peers": "peers",
     "not-connected": "Not connected",
-    "online": "Online",
-    "offline": "Offline",
     "no-peers": "No connected peers",
     "admin-console": "Admin Console",
     "terminal-warning": {
@@ -93,22 +90,6 @@
     }
   },
   "taildrop": {
-    "widget": {
-      "title": "Taildrop",
-      "not-connected": "Tailscale not connected",
-      "drop-hint": "Drop files here to send",
-      "drop-hint-active": "Release to pick a peer",
-      "receiving": "Waiting for incoming files…",
-      "sending": "Sending files…",
-      "receive": "Receive Files",
-      "cancel": "Cancel"
-    },
-    "picker": {
-      "title": "Send to peer",
-      "subtitle": "Sending {count} file(s) — pick a destination",
-      "no-peers": "No online peers available",
-      "cancel": "Cancel"
-    },
     "toast": {
       "no-files": "No files were received",
       "sent": "Files sent successfully"

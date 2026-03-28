@@ -25,7 +25,16 @@
     "ping-count-desc": "Nombre de paquets ping à envoyer lors du test de connectivité",
     "peer-action": "Action au clic sur un pair",
     "default-peer-action": "Action par défaut",
-    "default-peer-action-desc": "Action lors du clic sur un pair dans le panneau"
+    "default-peer-action-desc": "Action lors du clic sur un pair dans le panneau",
+    "taildrop": "Taildrop",
+    "taildrop-enabled": "Activer Taildrop",
+    "taildrop-enabled-desc": "Autoriser l'envoi et la réception de fichiers via Taildrop",
+    "taildrop-download-dir": "Répertoire de téléchargement",
+    "taildrop-download-dir-desc": "Répertoire où les fichiers reçus sont enregistrés (ex. ~/Downloads)",
+    "taildrop-receive-mode": "Mode de réception",
+    "taildrop-receive-mode-desc": "Comment exécuter 'tailscale file get'. Le mode opérateur ne nécessite pas de confirmation si vous avez exécuté 'sudo tailscale set --operator $USER'.",
+    "taildrop-receive-mode-operator": "Opérateur (sans confirmation)",
+    "taildrop-receive-mode-pkexec": "pkexec (confirmation à chaque fois)"
   },
   "actions": {
     "widget-settings": "Paramètres du widget"
@@ -33,14 +42,14 @@
   "context": {
     "connect": "Connecter",
     "disconnect": "Déconnecter",
-    "refresh": "Actualiser le statut",
     "not-installed": "Tailscale n'est pas installé",
     "settings": "Paramètres",
     "copy-ip": "Copier l'IP",
     "copy-fqdn": "Copier le FQDN",
     "ssh": "SSH vers l'hôte",
     "ping": "Ping l'hôte",
-    "use-exit-node": "Utiliser comme nœud de sortie"
+    "use-exit-node": "Utiliser comme nœud de sortie",
+    "send-file": "Envoyer un fichier"
   },
   "toast": {
     "title": "Tailscale",
@@ -63,8 +72,6 @@
     "title": "Réseau Tailscale",
     "peers": "pairs",
     "not-connected": "Non connecté",
-    "online": "En ligne",
-    "offline": "Hors ligne",
     "no-peers": "Aucun pair connecté",
     "admin-console": "Console d'administration",
     "terminal-warning": {
@@ -76,6 +83,20 @@
       "online": "En ligne",
       "offline": "Hors ligne",
       "disable": "Désactiver le nœud de sortie"
+    },
+    "taildrop": {
+      "receive": "Recevoir via Taildrop",
+      "cancel": "Annuler la réception"
+    }
+  },
+  "taildrop": {
+    "toast": {
+      "no-files": "Aucun fichier n'a été reçu",
+      "sent": "Fichiers envoyés avec succès"
+    },
+    "error": {
+      "unknown": "Une erreur inattendue s'est produite",
+      "file-exists": "Le fichier existe déjà dans le répertoire de téléchargement"
     }
   }
 }
