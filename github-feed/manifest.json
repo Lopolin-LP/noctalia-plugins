@@ -1,13 +1,18 @@
 {
   "id": "github-feed",
   "name": "GitHub Feed",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "minNoctaliaVersion": "3.6.0",
   "author": "linuxmobile",
   "license": "MIT",
   "repository": "https://github.com/noctalia-dev/noctalia-plugins",
   "description": "Display GitHub activity from users you follow and activity on your repos",
-  "tags": ["Bar", "Panel", "Development", "Network"],
+  "tags": [
+    "Bar",
+    "Panel",
+    "Development",
+    "Network"
+  ],
   "entryPoints": {
     "main": "Main.qml",
     "barWidget": "BarWidget.qml",

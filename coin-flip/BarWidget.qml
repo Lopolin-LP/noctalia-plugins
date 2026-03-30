@@ -8,6 +8,10 @@ NIconButton {
     id: root
     property var pluginApi: null
     property ShellScreen screen
+    property string widgetId: ""
+    property string section: ""
+    property int sectionWidgetIndex: -1
+    property int sectionWidgetsCount: 0
 
     property var defaults: pluginApi?.manifest?.metadata?.defaultSettings
     readonly property string iconColorKey: pluginApi?.pluginSettings.iconColor ?? defaults.iconColor ?? "mPrimary"

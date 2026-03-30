@@ -308,7 +308,7 @@ Item {
             NButton {
               text: pluginApi?.tr("panel.editor.delete_button") || "Delete"
               visible: root.currentNote && root.currentNote.id !== null
-              color: Color.mError
+              backgroundColor: Color.mError
               onClicked: deleteCurrentNote()
             }
             
