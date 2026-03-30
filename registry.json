@@ -987,7 +987,7 @@
     {
       "id": "screen-toolkit",
       "name": "Screen Toolkit",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "official": false,
       "author": "ycf-anon",
       "description": "A set of screen tools: color picker, annotate, record, pin, OCR, QR scanner, palette, measure, and webcam mirror.",
@@ -1000,7 +1000,7 @@
         "Utility",
         "System"
       ],
-      "lastUpdated": "2026-03-29T19:05:12-04:00"
+      "lastUpdated": "2026-03-30T09:01:54-04:00"
     },
     {
       "id": "screenshot",
@@ -1316,7 +1316,7 @@
     {
       "id": "web-search",
       "name": "Web Search",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "official": false,
       "author": "Rigelyon",
       "description": "Search the Internet from the Launcher.",
@@ -1327,7 +1327,7 @@
         "Launcher",
         "Utility"
       ],
-      "lastUpdated": "2026-03-20T20:12:02+01:00"
+      "lastUpdated": "2026-03-29T01:13:47+01:00"
     },
     {
       "id": "weekly-calendar",
