@@ -105,6 +105,11 @@
       "description": "包含壁紙專案資料夾的目錄",
       "placeholder": "~/.local/share/Steam/steamapps/workshop/content/431960"
     },
+    "assetsDir": {
+      "label": "Wallpaper Engine 資源目錄",
+      "description": "可選: linux-wallpaperengine 使用的 assets 路徑",
+      "placeholder": "~/.local/share/wallpaperengine/assets"
+    },
     "defaultScaling": {
       "label": "預設縮放",
       "description": "未設定自訂值時使用的預設縮放模式"

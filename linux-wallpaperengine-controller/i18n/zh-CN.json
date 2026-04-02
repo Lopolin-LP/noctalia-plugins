@@ -105,6 +105,11 @@
       "description": "包含壁纸项目文件夹的目录",
       "placeholder": "~/.local/share/Steam/steamapps/workshop/content/431960"
     },
+    "assetsDir": {
+      "label": "Wallpaper Engine 资源目录",
+      "description": "可选：linux-wallpaperengine 使用的 assets 路径",
+      "placeholder": "~/.local/share/wallpaperengine/assets"
+    },
     "defaultScaling": {
       "label": "默认缩放",
       "description": "未设置自定义值时的默认缩放模式"

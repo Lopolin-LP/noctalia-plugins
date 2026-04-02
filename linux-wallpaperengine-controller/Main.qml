@@ -89,6 +89,15 @@ Item {
     return cfg.assetsDir ?? defaults.assetsDir ?? "";
   }
 
+  function shouldRunWorkshopScan() {
+    if (!defaultAutoDetectWorkshop()) {
+      return false;
+    }
+
+    const configuredFolder = normalizedPath(cfg.wallpapersFolder ?? defaults.wallpapersFolder ?? "");
+    return configuredFolder.length === 0;
+  }
+
   function normalizedPath(path) {
     return Settings.preprocessPath(String(path || ""));
   }
@@ -426,7 +435,7 @@ Item {
 
   Process {
     id: workshopScan
-    running: true
+    running: root.shouldRunWorkshopScan()
     command: [
       "sh",
       "-c",
@@ -447,8 +456,8 @@ Item {
         return;
       }
 
-      const userConfigured = String(root.pluginApi?.pluginSettings?.wallpapersFolder || "").trim().length > 0;
-      if (!userConfigured && root.defaultAutoDetectWorkshop()) {
+      const resolvedConfigured = root.normalizedPath(root.cfg.wallpapersFolder ?? root.defaults.wallpapersFolder ?? "");
+      if (resolvedConfigured.length === 0 && root.defaultAutoDetectWorkshop()) {
         Logger.i("LWEController", "Auto-applying detected wallpapersFolder", detected);
         root.pluginApi.pluginSettings.wallpapersFolder = detected;
         root.pluginApi.saveSettings();

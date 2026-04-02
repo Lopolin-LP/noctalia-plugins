@@ -13,6 +13,7 @@ ColumnLayout {
   readonly property var defaults: pluginApi?.manifest?.metadata?.defaultSettings || ({})
 
   property string editWallpapersFolder: cfg.wallpapersFolder ?? defaults.wallpapersFolder ?? ""
+  property string editAssetsDir: cfg.assetsDir ?? defaults.assetsDir ?? ""
   property string editDefaultScaling: cfg.defaultScaling ?? defaults.defaultScaling ?? "fill"
   property int editDefaultFps: cfg.defaultFps ?? defaults.defaultFps ?? 30
   property int editDefaultVolume: cfg.defaultVolume ?? defaults.defaultVolume ?? 100
@@ -23,6 +24,7 @@ ColumnLayout {
   property bool editDefaultNoFullscreenPause: cfg.defaultNoFullscreenPause ?? defaults.defaultNoFullscreenPause ?? false
   property bool editDefaultFullscreenPauseOnlyActive: cfg.defaultFullscreenPauseOnlyActive ?? defaults.defaultFullscreenPauseOnlyActive ?? false
   property bool editAutoDetectWorkshop: cfg.autoDetectWorkshop ?? defaults.autoDetectWorkshop ?? true
+  property bool editAutoApplyOnStartup: cfg.autoApplyOnStartup ?? defaults.autoApplyOnStartup ?? true
 
   spacing: Style.marginL
 
@@ -67,6 +69,14 @@ ColumnLayout {
     onToggled: checked => root.editDefaultFullscreenPauseOnlyActive = checked
   }
 
+  NToggle {
+    Layout.fillWidth: true
+    label: pluginApi?.tr("settings.autoApplyOnStartup.label")
+    description: pluginApi?.tr("settings.autoApplyOnStartup.description")
+    checked: root.editAutoApplyOnStartup
+    onToggled: checked => root.editAutoApplyOnStartup = checked
+  }
+
   NText {
     Layout.fillWidth: true
     text: pluginApi?.tr("settings.category.compatibilityTitle")
@@ -81,6 +91,15 @@ ColumnLayout {
     placeholderText: pluginApi?.tr("settings.wallpapersFolder.placeholder")
     text: root.editWallpapersFolder
     onTextChanged: root.editWallpapersFolder = text
+  }
+
+  NTextInput {
+    Layout.fillWidth: true
+    label: pluginApi?.tr("settings.assetsDir.label")
+    description: pluginApi?.tr("settings.assetsDir.description")
+    placeholderText: pluginApi?.tr("settings.assetsDir.placeholder")
+    text: root.editAssetsDir
+    onTextChanged: root.editAssetsDir = text
   }
 
   NToggle {
@@ -170,6 +189,7 @@ ColumnLayout {
     }
 
     pluginApi.pluginSettings.wallpapersFolder = root.editWallpapersFolder;
+    pluginApi.pluginSettings.assetsDir = root.editAssetsDir;
     pluginApi.pluginSettings.defaultScaling = root.editDefaultScaling;
     pluginApi.pluginSettings.defaultFps = root.editDefaultFps;
     pluginApi.pluginSettings.defaultVolume = root.editDefaultVolume;
@@ -180,9 +200,10 @@ ColumnLayout {
     pluginApi.pluginSettings.defaultNoFullscreenPause = root.editDefaultNoFullscreenPause;
     pluginApi.pluginSettings.defaultFullscreenPauseOnlyActive = root.editDefaultFullscreenPauseOnlyActive;
     pluginApi.pluginSettings.autoDetectWorkshop = root.editAutoDetectWorkshop;
+    pluginApi.pluginSettings.autoApplyOnStartup = root.editAutoApplyOnStartup;
 
     pluginApi.saveSettings();
-    Logger.i("LWEController", "Settings saved", "wallpapersFolder=", root.editWallpapersFolder, "defaultScaling=", root.editDefaultScaling, "defaultFps=", root.editDefaultFps, "defaultVolume=", root.editDefaultVolume, "defaultMuted=", root.editDefaultMuted, "defaultAudioReactiveEffects=", root.editDefaultAudioReactiveEffects, "defaultDisableMouse=", root.editDefaultDisableMouse, "defaultDisableParallax=", root.editDefaultDisableParallax, "defaultNoFullscreenPause=", root.editDefaultNoFullscreenPause, "defaultFullscreenPauseOnlyActive=", root.editDefaultFullscreenPauseOnlyActive, "autoDetectWorkshop=", root.editAutoDetectWorkshop);
+    Logger.i("LWEController", "Settings saved", "wallpapersFolder=", root.editWallpapersFolder, "assetsDir=", root.editAssetsDir, "defaultScaling=", root.editDefaultScaling, "defaultFps=", root.editDefaultFps, "defaultVolume=", root.editDefaultVolume, "defaultMuted=", root.editDefaultMuted, "defaultAudioReactiveEffects=", root.editDefaultAudioReactiveEffects, "defaultDisableMouse=", root.editDefaultDisableMouse, "defaultDisableParallax=", root.editDefaultDisableParallax, "defaultNoFullscreenPause=", root.editDefaultNoFullscreenPause, "defaultFullscreenPauseOnlyActive=", root.editDefaultFullscreenPauseOnlyActive, "autoDetectWorkshop=", root.editAutoDetectWorkshop, "autoApplyOnStartup=", root.editAutoApplyOnStartup);
 
     if (pluginApi.mainInstance && pluginApi.mainInstance.engineAvailable) {
       Logger.d("LWEController", "Triggering engine reload after settings save");

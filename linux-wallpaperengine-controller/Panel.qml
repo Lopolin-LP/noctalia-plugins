@@ -243,6 +243,7 @@ Item {
     if (applyAllDisplays) {
       Logger.i("LWEController", "Confirm apply to all displays", path, JSON.stringify(options));
       mainInstance?.setAllScreensWallpaperWithOptions(path, options);
+      pendingPath = "";
       return;
     }
 
@@ -253,6 +254,7 @@ Item {
 
     Logger.i("LWEController", "Confirm apply to screen", selectedScreenName, path, JSON.stringify(options));
     mainInstance?.setScreenWallpaperWithOptions(selectedScreenName, path, options);
+    pendingPath = "";
   }
 
   function refreshVisibleWallpapers() {
@@ -277,7 +279,7 @@ Item {
     } else if (sortMode === "recent") {
       items.sort((a, b) => Number(b.mtime || 0) - Number(a.mtime || 0));
     } else {
-      items.sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "zh"));
+      items.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
     }
 
     if (!sortAscending) {
@@ -692,9 +694,11 @@ Item {
                 model: root.visibleWallpapers
 
                 delegate: Rectangle {
+                  id: tileCard
                   required property var modelData
                   width: gridView.cellWidth
                   height: gridView.cellHeight
+                  readonly property bool isPreviewActive: tileMouse.containsMouse || root.pendingPath === modelData.path || root.selectedPath === modelData.path
                   radius: Style.radiusL
                   color: Qt.alpha(Color.mSurface, 0.82)
                   border.width: root.pendingPath === modelData.path ? 2 : (root.selectedPath === modelData.path ? 1 : 0)
@@ -715,38 +719,50 @@ Item {
 
                       Image {
                         anchors.fill: parent
-                        visible: (!modelData.motionPreview || modelData.motionPreview.length === 0) && modelData.thumb && modelData.thumb.length > 0
+                        visible: modelData.thumb && modelData.thumb.length > 0
                         source: visible ? ("file://" + modelData.thumb) : ""
                         fillMode: Image.PreserveAspectCrop
                         cache: false
                       }
 
-                      AnimatedImage {
+                      Loader {
                         anchors.fill: parent
-                        visible: modelData.motionPreview && modelData.motionPreview.length > 0 && !root.isVideoMotion(modelData.motionPreview)
-                        source: visible ? ("file://" + modelData.motionPreview) : ""
-                        fillMode: Image.PreserveAspectCrop
-                        cache: false
-                        playing: visible
+                        active: modelData.motionPreview && modelData.motionPreview.length > 0 && tileCard.isPreviewActive
+                        sourceComponent: root.isVideoMotion(modelData.motionPreview) ? motionVideoComponent : motionAnimatedComponent
                       }
 
-                      Video {
-                        anchors.fill: parent
-                        visible: modelData.motionPreview && modelData.motionPreview.length > 0 && root.isVideoMotion(modelData.motionPreview)
-                        autoPlay: true
-                        loops: MediaPlayer.Infinite
-                        muted: true
-                        fillMode: VideoOutput.PreserveAspectCrop
-                        source: visible ? ("file://" + modelData.motionPreview) : ""
+                      Component {
+                        id: motionAnimatedComponent
 
-                        onErrorOccurred: (error, errorString) => {
-                          Logger.e("LWEController", "Video preview error", errorString, modelData.motionPreview);
+                        AnimatedImage {
+                          anchors.fill: parent
+                          source: "file://" + modelData.motionPreview
+                          fillMode: Image.PreserveAspectCrop
+                          cache: false
+                          playing: true
+                        }
+                      }
+
+                      Component {
+                        id: motionVideoComponent
+
+                        Video {
+                          anchors.fill: parent
+                          autoPlay: true
+                          loops: MediaPlayer.Infinite
+                          muted: true
+                          fillMode: VideoOutput.PreserveAspectCrop
+                          source: "file://" + modelData.motionPreview
+
+                          onErrorOccurred: (error, errorString) => {
+                            Logger.e("LWEController", "Video preview error", errorString, modelData.motionPreview);
+                          }
                         }
                       }
 
                       NIcon {
                         anchors.centerIn: parent
-                        visible: (!modelData.thumb || modelData.thumb.length === 0) && (!modelData.motionPreview || modelData.motionPreview.length === 0)
+                        visible: (!modelData.thumb || modelData.thumb.length === 0) && (!modelData.motionPreview || modelData.motionPreview.length === 0 || !tileCard.isPreviewActive)
                         icon: "photo"
                         pointSize: Style.fontSizeXL
                         color: Color.mOnSurfaceVariant
@@ -801,8 +817,10 @@ Item {
                   }
 
                   MouseArea {
+                    id: tileMouse
                     anchors.fill: parent
                     enabled: mainInstance?.engineAvailable
+                    hoverEnabled: true
                     onClicked: root.applyPath(modelData.path)
                   }
                 }
@@ -1219,8 +1237,9 @@ Item {
     onExited: function (exitCode) {
       const parsed = [];
       const lines = String(stdout.text || "").split("\n");
+      const stderrText = String(stderr.text || "").trim();
 
-      root.folderAccessible = (exitCode !== 10);
+      root.folderAccessible = (exitCode === 0);
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
@@ -1262,7 +1281,11 @@ Item {
       root.scanningWallpapers = false;
 
       if (!root.folderAccessible) {
-        Logger.e("LWEController", "Wallpaper folder inaccessible", root.resolvedWallpapersFolder);
+        if (stderrText.length > 0) {
+          Logger.e("LWEController", "Wallpaper scan failed", "folder=", root.resolvedWallpapersFolder, "exitCode=", exitCode, "stderr=", stderrText);
+        } else {
+          Logger.e("LWEController", "Wallpaper scan failed", "folder=", root.resolvedWallpapersFolder, "exitCode=", exitCode);
+        }
       }
 
       Logger.i("LWEController", "Scan completed", "count=", parsed.length, "exitCode=", exitCode);

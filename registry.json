@@ -486,6 +486,23 @@
       "lastUpdated": "2026-03-29T19:05:12-04:00"
     },
     {
+      "id": "linux-wallpaperengine-controller",
+      "name": "Linux WallpaperEngine Controller",
+      "version": "1.0.1",
+      "official": false,
+      "author": "PaloMIku",
+      "description": "Control linux-wallpaperengine from Noctalia with per-screen wallpaper selection.",
+      "repository": "https://github.com/noctalia-dev/noctalia-plugins",
+      "minNoctaliaVersion": "4.6.6",
+      "license": "MIT",
+      "tags": [
+        "Bar",
+        "Panel",
+        "System"
+      ],
+      "lastUpdated": "2026-04-03T03:29:13+08:00"
+    },
+    {
       "id": "mangowc-layout-switcher",
       "name": "mango layout switcher",
       "version": "2.0.1",

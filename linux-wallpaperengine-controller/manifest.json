@@ -1,9 +1,9 @@
 {
   "id": "linux-wallpaperengine-controller",
   "name": "Linux WallpaperEngine Controller",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minNoctaliaVersion": "4.6.6",
-  "author": "Noctalia Community",
+  "author": "PaloMiku",
   "license": "MIT",
   "repository": "https://github.com/noctalia-dev/noctalia-plugins",
   "description": "Control linux-wallpaperengine from Noctalia with per-screen wallpaper selection.",

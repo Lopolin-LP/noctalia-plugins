@@ -105,6 +105,11 @@
       "description": "壁紙プロジェクトフォルダーを含むディレクトリ",
       "placeholder": "~/.local/share/Steam/steamapps/workshop/content/431960"
     },
+    "assetsDir": {
+      "label": "Wallpaper Engine assets ディレクトリ",
+      "description": "任意: linux-wallpaperengine が使用する assets のパス",
+      "placeholder": "~/.local/share/wallpaperengine/assets"
+    },
     "defaultScaling": {
       "label": "既定の拡大縮小",
       "description": "カスタム値がないスクリーンに使用する既定の拡大縮小モード"

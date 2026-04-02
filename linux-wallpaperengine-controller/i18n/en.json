@@ -105,6 +105,11 @@
       "description": "Directory containing wallpaper project folders",
       "placeholder": "~/.local/share/Steam/steamapps/workshop/content/431960"
     },
+    "assetsDir": {
+      "label": "Wallpaper Engine assets directory",
+      "description": "Optional path to assets used by linux-wallpaperengine",
+      "placeholder": "~/.local/share/wallpaperengine/assets"
+    },
     "defaultScaling": {
       "label": "Default scaling",
       "description": "Default scaling mode for screens without custom values"
