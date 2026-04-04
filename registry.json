@@ -555,7 +555,7 @@
     {
       "id": "mirror-mirror",
       "name": "Mirror Mirror",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "official": false,
       "author": "Mathew-D",
       "description": "Mirror one monitor to another using wl-mirror.",
@@ -568,7 +568,7 @@
         "Utility",
         "System"
       ],
-      "lastUpdated": "2026-03-29T19:05:12-04:00"
+      "lastUpdated": "2026-04-02T12:04:15+08:00"
     },
     {
       "id": "model-usage",
@@ -1024,18 +1024,18 @@
     {
       "id": "screenshot",
       "name": "Screenshot",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "official": false,
       "author": "Cleboost",
       "description": "Quick screenshot button in bar for Hyprland, Sway, and Niri",
       "repository": "https://github.com/noctalia-dev/noctalia-plugins",
-      "minNoctaliaVersion": "3.6.1",
+      "minNoctaliaVersion": "3.6.0",
       "license": "MIT",
       "tags": [
         "Bar",
         "Utility"
       ],
-      "lastUpdated": "2026-04-02T17:14:06+02:00"
+      "lastUpdated": "2026-04-02T20:49:25+02:00"
     },
     {
       "id": "show-keys",
