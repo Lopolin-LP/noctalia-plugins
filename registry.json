@@ -1092,6 +1092,24 @@
       "lastUpdated": "2026-04-02T20:49:25+02:00"
     },
     {
+      "id": "shell-profiles",
+      "name": "Profiles",
+      "version": "1.0.0",
+      "official": false,
+      "author": "Archlexx",
+      "description": "Save, load, and manage Noctalia configuration profiles.",
+      "repository": "https://github.com/noctalia-dev/noctalia-plugins",
+      "minNoctaliaVersion": "4.6.6",
+      "license": "MIT",
+      "tags": [
+        "Bar",
+        "Theming",
+        "Utility",
+        "Panel"
+      ],
+      "lastUpdated": "2026-04-05T16:01:52+02:00"
+    },
+    {
       "id": "show-keys",
       "name": "Show Keys",
       "version": "1.0.1",
