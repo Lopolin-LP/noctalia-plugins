@@ -1,0 +1,84 @@
+{
+  "menu": {
+    "settings": "Eklenti ayarları"
+  },
+  "settings": {
+    "title": "Özel Çalışma Alanları",
+    "description": "Bar eklentisinde görüntülenen özel çalışma alanlarını özelleştir.",
+    "mainIcon": {
+      "label": "Ana Buton Simgesi",
+      "browseTooltip": "Simgelere göz at"
+    },
+    "drawer": {
+      "label": "Çekmeceyi Göster",
+      "description": "Odaklanılmadığında/aktif olmadığında çalışma alanlarını çekmecede gizle"
+    },
+    "hideEmpty": {
+      "label": "Boş Çalışma Alanlarını Gizle"
+    },
+    "expandDirection": {
+      "label": "Genişleme Yönü",
+      "description": "Çalışma alanı haplarının ana düğmeden genişleme yönünü belirle.",
+      "down": "Aşağı",
+      "up": "Yukarı",
+      "right": "Sağ",
+      "left": "Sol"
+    },
+    "borderRadius": {
+      "label": "Kenarlık Yarıçapı",
+      "description": "Düğmelerin yuvarlaklığı (%%1)."
+    },
+    "focusBorderColor": {
+      "label": "Odak Kenarlık Rengi",
+      "description": "Odaklanılan çalışma alanında gösterilen kenarlığın rengi."
+    },
+    "panelBackgroundColor": {
+      "label": "Panel Arka Plan Rengi",
+      "description": "Yüzen panelin arka plan rengi (dik olarak genişletildiğinde geçerlidir)."
+    },
+    "primaryButton": {
+      "title": "Birincil Buton",
+      "showPill": {
+        "label": "Hapı Göster",
+        "description": "Ana buton simgesinin arkasında renkli bir daire göster."
+      },
+      "symbolColor": {
+        "label": "Sembol Rengi",
+        "description": "Ana buton simge rengini değiştir."
+      },
+      "pillColor": {
+        "label": "Hap Rengi",
+        "description": "Ana buton hapı rengini değiştir."
+      },
+      "size": {
+        "label": "Boyut",
+        "description": "Ana buton boyutu (%%1)."
+      }
+    },
+    "secondaryButtons": {
+      "title": "İkincil Butonlar",
+      "showPill": {
+        "label": "Hapı Göster",
+        "description": "Her çalışma alanı simgesinin arkasında renkli bir daire göster."
+      },
+      "symbolColor": {
+        "label": "Sembol Rengi",
+        "description": "Çalışma alanı simgesi rengini değiştir."
+      },
+      "pillColor": {
+        "label": "Hap Rengi",
+        "description": "Çalışma alanı hapı rengini değiştir."
+      },
+      "size": {
+        "label": "Boyut",
+        "description": "Çalışma alanı haplarının boyutu (%%1)."
+      }
+    },
+    "workspaces": {
+      "namePlaceholder": "Çalışma alanı adı",
+      "iconPlaceholder": "Simge adı",
+      "removeTooltip": "Çalışma alanını kaldır",
+      "add": "Çalışma Alanı Ekle"
+    }
+  }
+}

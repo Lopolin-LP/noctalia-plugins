@@ -27,6 +27,12 @@ Item {
     readonly property string mainIcon: cfg.mainIcon ?? defaults.mainIcon
     readonly property string expandDirection: cfg.expandDirection ?? defaults.expandDirection
     readonly property bool isVertical: expandDirection === "up" || expandDirection === "down"
+    
+    readonly property string barPosition: Settings.getBarPositionForScreen(screen?.name)
+    readonly property bool isBarVertical: barPosition === "left" || barPosition === "right"
+
+    readonly property bool needsPanel: (isBarVertical && (expandDirection === "left" || expandDirection === "right")) ||
+                                       (!isBarVertical && (expandDirection === "up" || expandDirection === "down"))
 
     // Primary button settings
     readonly property bool showDrawer: cfg.drawer ?? defaults.drawer
@@ -70,8 +76,8 @@ Item {
 
     // --- State tracking ---
 
-    property var activeWorkspaceNames: ({})
-    property string internalActiveSpecial: ""
+    readonly property var activeWorkspaceNames: pluginApi?.mainInstance?.activeWorkspaceNames || ({})
+    readonly property string internalActiveSpecial: pluginApi?.mainInstance?.activeSpecialByMonitor?.[screen?.name] ?? ""
 
     readonly property bool hasActiveWorkspaces: Object.keys(activeWorkspaceNames).length > 0
     readonly property bool isOnSpecial: internalActiveSpecial !== ""
@@ -79,59 +85,22 @@ Item {
     readonly property bool expanded: isOnSpecial || manuallyExpanded
 
     onIsOnSpecialChanged: {
-        if (!isOnSpecial) manuallyExpanded = false;
-    }
-
-    // --- Hyprland integration ---
-
-    function updateActiveWorkspaces() {
-        if (!CompositorService.isHyprland) {
-            activeWorkspaceNames = {};
-            return;
-        }
-        try {
-            var names = {};
-            var ws = Hyprland.workspaces.values;
-            for (var i = 0; i < ws.length; i++) {
-                if (ws[i].name && ws[i].name.startsWith("special:")) {
-                    names[ws[i].name] = true;
-                }
+        if (!isOnSpecial) {
+            manuallyExpanded = false;
+            if (needsPanel && pluginApi && root.screen) {
+                pluginApi.closePanel(root.screen);
             }
-            activeWorkspaceNames = names;
-        } catch (e) {
-            activeWorkspaceNames = {};
-        }
-    }
-
-    Connections {
-        target: CompositorService.isHyprland ? Hyprland : null
-        function onRawEvent(event) {
-            if (event.name === "activespecial") {
-                const dataParts = event.data.split(",");
-                const wsName = dataParts[0];
-                if (wsName && wsName.startsWith("special:")) {
-                    root.internalActiveSpecial = wsName;
-                } else {
-                    root.internalActiveSpecial = "";
+        } else {
+            if (needsPanel && pluginApi && root.screen) {
+                if (Hyprland.focusedMonitor?.name === root.screen.name) {
+                    pluginApi.openPanel(root.screen, root);
                 }
-            }
-            if (["createworkspace", "createworkspacev2", "destroyworkspace", "destroyworkspacev2"].includes(event.name)) {
-                updateActiveWorkspaces();
             }
         }
     }
 
     Component.onCompleted: {
         Logger.i("SpecialWorkspaces", "Widget loaded");
-        if (CompositorService.isHyprland) {
-            updateActiveWorkspaces();
-            try {
-                const initial = Hyprland.focusedMonitor?.specialWorkspace?.name;
-                if (initial && initial.startsWith("special:")) {
-                    root.internalActiveSpecial = initial;
-                }
-            } catch(e) {}
-        }
     }
 
     // --- Sizing ---
@@ -147,7 +116,7 @@ Item {
         return configuredWorkspaces.length;
     }
 
-    readonly property int totalSecPills: (expanded || !showDrawer) ? visibleWorkspacesCount : 0
+    readonly property int totalSecPills: (!root.needsPanel && (expanded || !showDrawer)) ? visibleWorkspacesCount : 0
 
     readonly property real fullSize: {
         const pillsSize = totalSecPills > 0
@@ -179,8 +148,8 @@ Item {
         visible: root.showDrawer
         color: {
             if (mainBtnMouse.containsMouse) return root.priShowPill ? Color.mHover : Color.mTertiary;
-            if (!root.priShowPill) return "transparent";
-            return root.priPillColor === "none" ? Color.mPrimary : Color.resolveColorKey(root.priPillColor);
+            if (!root.priShowPill || root.priPillColor === "none") return "transparent";
+            return Color.resolveColorKey(root.priPillColor);
         }
 
         Behavior on color { ColorAnimation { duration: Style.animationFast } }
@@ -192,7 +161,7 @@ Item {
             color: {
                 if (mainBtnMouse.containsMouse) return root.priShowPill ? Color.mOnHover : Color.mOnTertiary;
                 if (root.priSymbolColor !== "none") return Color.resolveColorKey(root.priSymbolColor);
-                return root.priShowPill ? (root.priPillColor === "none" ? Color.mOnPrimary : Color.resolveOnColorKey(root.priPillColor)) : Color.mOnSurface;
+                return (root.priShowPill && root.priPillColor !== "none") ? Color.resolveOnColorKey(root.priPillColor) : Color.mOnSurface;
             }
             anchors.centerIn: parent
         }
@@ -208,6 +177,12 @@ Item {
                     PanelService.showContextMenu(contextMenu, root, screen);
                     return;
                 }
+                
+                if (root.needsPanel) {
+                    if (pluginApi) pluginApi.togglePanel(root.screen, root);
+                    return;
+                }
+
                 if (root.expanded) {
                     if (root.isOnSpecial) {
                         Hyprland.dispatch("togglespecialworkspace");
@@ -229,8 +204,8 @@ Item {
         radius: root.secPillSize / 2 * root.borderRadius
         color: {
             if (wsPillMouse.containsMouse) return root.secShowPill ? Color.mHover : Color.mTertiary;
-            if (!root.secShowPill) return "transparent";
-            return root.secPillColor === "none" ? Color.mPrimary : Color.resolveColorKey(root.secPillColor);
+            if (!root.secShowPill || root.secPillColor === "none") return "transparent";
+            return Color.resolveColorKey(root.secPillColor);
         }
 
         readonly property bool isActive: root.activeWorkspaceNames[modelData.name] === true
@@ -239,7 +214,8 @@ Item {
         opacity: isActive ? 1.0 : 0.2
         border.color: {
             if (!isFocused) return "transparent";
-            if (root.focusBorderColor !== "none") return Color.resolveColorKey(root.focusBorderColor);
+            if (root.focusBorderColor === "none") return "transparent";
+            if (root.focusBorderColor !== "") return Color.resolveColorKey(root.focusBorderColor);
             return root.secShowPill ? Color.mOnPrimary : Color.mPrimary;
         }
         border.width: 2
@@ -253,7 +229,7 @@ Item {
             color: {
                 if (wsPillMouse.containsMouse) return root.secShowPill ? Color.mOnHover : Color.mOnTertiary;
                 if (root.secSymbolColor !== "none") return Color.resolveColorKey(root.secSymbolColor);
-                return root.secShowPill ? (root.secPillColor === "none" ? Color.mOnPrimary : Color.resolveOnColorKey(root.secPillColor)) : Color.mOnSurface;
+                return (root.secShowPill && root.secPillColor !== "none") ? Color.resolveOnColorKey(root.secPillColor) : Color.mOnSurface;
             }
             anchors.centerIn: parent
         }
@@ -284,7 +260,7 @@ Item {
 
         model: [
             {
-                "label": "Widget Settings",
+                "label": pluginApi?.tr("menu.settings"),
                 "action": "settings",
                 "icon": "settings"
             }
@@ -311,8 +287,7 @@ Item {
         Repeater {
             model: root.configuredWorkspaces
             WorkspacePill {
-                visible: (!root.showDrawer || root.expanded)
-                      && (!root.hideEmpty || root.activeWorkspaceNames[modelData.name] === true)
+                visible: (!root.needsPanel && (!root.showDrawer || root.expanded)) && (!root.hideEmpty || root.activeWorkspaceNames[modelData.name] === true)
                 Layout.alignment: Qt.AlignVCenter
             }
         }
@@ -326,9 +301,7 @@ Item {
         Repeater {
             model: root.configuredWorkspaces
             WorkspacePill {
-                visible: (!root.showDrawer || root.expanded)
-                      && root.expandDirection === "up"
-                      && (!root.hideEmpty || root.activeWorkspaceNames[modelData.name] === true)
+                visible: (!root.needsPanel && (!root.showDrawer || root.expanded)) && root.expandDirection === "up" && (!root.hideEmpty || root.activeWorkspaceNames[modelData.name] === true)
                 Layout.alignment: Qt.AlignHCenter
             }
         }
@@ -336,9 +309,7 @@ Item {
         Repeater {
             model: root.configuredWorkspaces
             WorkspacePill {
-                visible: (!root.showDrawer || root.expanded)
-                      && root.expandDirection === "down"
-                      && (!root.hideEmpty || root.activeWorkspaceNames[modelData.name] === true)
+                visible: (!root.needsPanel && (!root.showDrawer || root.expanded)) && root.expandDirection === "down" && (!root.hideEmpty || root.activeWorkspaceNames[modelData.name] === true)
                 Layout.alignment: Qt.AlignHCenter
             }
         }

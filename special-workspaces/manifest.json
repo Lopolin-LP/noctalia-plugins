@@ -7,13 +7,11 @@
   "license": "MIT",
   "repository": "https://github.com/noctalia-dev/noctalia-plugins",
   "description": "Configurable Hyprland special workspaces indicator for the bar.",
-  "tags": [
-    "Bar",
-    "Productivity",
-    "Hyprland"
-  ],
+  "tags": ["Bar", "Productivity", "Hyprland"],
   "entryPoints": {
+    "main": "Main.qml",
     "barWidget": "BarWidget.qml",
+    "panel": "Panel.qml",
     "settings": "Settings.qml"
   },
   "dependencies": {
@@ -33,6 +31,8 @@
       "secondarySize": 0.9,
       "borderRadius": 1.0,
       "focusBorderColor": "primary",
+      "panelBackgroundColor": "surface",
+      "panelBackgroundEnabled": true,
       "workspaces": [
         {
           "name": "communication",
@@ -40,7 +40,7 @@
         }
       ],
       "drawer": true,
-      "hideEmptyWorkspaces": true
+      "hideEmptyWorkspaces": false
     }
   }
 }

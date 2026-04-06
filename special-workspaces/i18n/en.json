@@ -1,0 +1,90 @@
+{
+  "menu": {
+    "settings": "Widget settings"
+  },
+  "settings": {
+    "title": "Special Workspaces",
+    "description": "Configure Hyprland special workspaces shown in the bar widget.",
+    "mainIcon": {
+      "label": "Main Button Icon",
+      "browseTooltip": "Browse icons"
+    },
+    "drawer": {
+      "label": "Show Drawer",
+      "description": "Hide workspaces in drawer when not focused/active"
+    },
+    "hideEmpty": {
+      "label": "Hide Empty Workspaces"
+    },
+    "expandDirection": {
+      "label": "Expand Direction",
+      "description": "Which direction the workspace pills expand from the main button.",
+      "down": "Down",
+      "up": "Up",
+      "right": "Right",
+      "left": "Left"
+    },
+    "borderRadius": {
+      "label": "Border Radius",
+      "description": "Roundness of the buttons (%1%)."
+    },
+    "focusBorderColor": {
+      "label": "Focus Border Color",
+      "description": "Color of the border shown on the focused workspace."
+    },
+    "panelBackground": {
+      "enabled": {
+        "label": "Panel Background",
+        "description": "Show a background behind the floating panel to mimic the system tray look."
+      }
+    },
+    "panelBackgroundColor": {
+      "label": "Panel Background Color",
+      "description": "Background color of the floating panel."
+    },
+    "primaryButton": {
+      "title": "Primary Button",
+      "showPill": {
+        "label": "Show Pill",
+        "description": "Show a colored circle behind the main button icon."
+      },
+      "symbolColor": {
+        "label": "Symbol Color",
+        "description": "Override the main button icon color."
+      },
+      "pillColor": {
+        "label": "Pill Color",
+        "description": "Override the main button pill color."
+      },
+      "size": {
+        "label": "Size",
+        "description": "Size of the main button (%1%)."
+      }
+    },
+    "secondaryButtons": {
+      "title": "Secondary Buttons",
+      "showPill": {
+        "label": "Show Pill",
+        "description": "Show a colored circle behind each workspace icon."
+      },
+      "symbolColor": {
+        "label": "Symbol Color",
+        "description": "Override the workspace icon color."
+      },
+      "pillColor": {
+        "label": "Pill Color",
+        "description": "Override the workspace pill color."
+      },
+      "size": {
+        "label": "Size",
+        "description": "Size of the workspace pills (%1%)."
+      }
+    },
+    "workspaces": {
+      "namePlaceholder": "Workspace name",
+      "iconPlaceholder": "Icon name",
+      "removeTooltip": "Remove workspace",
+      "add": "Add Workspace"
+    }
+  }
+}

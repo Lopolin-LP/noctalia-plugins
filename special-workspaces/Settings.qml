@@ -27,6 +27,13 @@ ColumnLayout {
     property real secondarySize: cfg.secondarySize ?? defaults.secondarySize
     property real borderRadius: cfg.borderRadius ?? defaults.borderRadius
     property string focusBorderColor: cfg.focusBorderColor ?? defaults.focusBorderColor
+    property string panelBackgroundColor: cfg.panelBackgroundColor ?? defaults.panelBackgroundColor ?? "surface"
+    property bool panelBackgroundEnabled: cfg.panelBackgroundEnabled ?? defaults.panelBackgroundEnabled ?? true
+
+    readonly property string barPosition: Settings.getBarPositionForScreen()
+    readonly property bool isBarVertical: barPosition === "left" || barPosition === "right"
+    readonly property bool isPerpendicular: (isBarVertical && (root.expandDirection === "left" || root.expandDirection === "right")) ||
+                                            (!isBarVertical && (root.expandDirection === "up" || root.expandDirection === "down"))
 
     // Local mutable copy for editing
     property var workspaces: []
@@ -77,19 +84,21 @@ ColumnLayout {
         pluginApi.pluginSettings.secondarySize = root.secondarySize;
         pluginApi.pluginSettings.borderRadius = root.borderRadius;
         pluginApi.pluginSettings.focusBorderColor = root.focusBorderColor;
+        pluginApi.pluginSettings.panelBackgroundColor = root.panelBackgroundColor;
+        pluginApi.pluginSettings.panelBackgroundEnabled = root.panelBackgroundEnabled;
         pluginApi.pluginSettings.workspaces = valid;
         pluginApi.saveSettings();
         Logger.i("SpecialWorkspaces", "Settings saved");
     }
 
     NText {
-        text: "Special Workspaces"
+        text: pluginApi?.tr("settings.title")
         pointSize: Style.fontSizeL
         font.bold: true
     }
 
     NText {
-        text: "Configure Hyprland special workspaces shown in the bar widget."
+        text: pluginApi?.tr("settings.description")
         color: Color.mOnSurfaceVariant
         Layout.fillWidth: true
         wrapMode: Text.Wrap
@@ -107,7 +116,7 @@ ColumnLayout {
         NTextInput {
             id: mainIconInput
             Layout.preferredWidth: 140
-            label: "Main Button Icon"
+            label: pluginApi?.tr("settings.mainIcon.label")
             text: root.mainIcon
             onTextChanged: {
                 if (text !== root.mainIcon) {
@@ -118,7 +127,7 @@ ColumnLayout {
 
         NIconButton {
             icon: "search"
-            tooltipText: "Browse icons"
+            tooltipText: pluginApi?.tr("settings.mainIcon.browseTooltip")
             onClicked: {
                 mainIconPicker.open();
             }
@@ -136,15 +145,15 @@ ColumnLayout {
 
     NToggle {
       Layout.fillWidth: true
-      label: "Show drawer"
-      description: "Hide workspaces in drawer when not focused/active"
+      label: pluginApi?.tr("settings.drawer.label")
+      description: pluginApi?.tr("settings.drawer.description")
       checked: root.drawer
       onToggled: checked => root.drawer = checked
     }
 
     NToggle {
       Layout.fillWidth: true
-      label: "Hide empty workspaces"
+      label: pluginApi?.tr("settings.hideEmpty.label")
       checked: root.hideEmpty
       onToggled: checked => root.hideEmpty = checked
     }
@@ -152,13 +161,13 @@ ColumnLayout {
     NComboBox {
         visible: root.drawer
         Layout.fillWidth: true
-        label: "Expand Direction"
-        description: "Which direction the workspace pills expand from the main button."
+        label: pluginApi?.tr("settings.expandDirection.label")
+        description: pluginApi?.tr("settings.expandDirection.description")
         model: [
-            { "key": "down", "name": "Down" },
-            { "key": "up", "name": "Up" },
-            { "key": "right", "name": "Right" },
-            { "key": "left", "name": "Left" }
+            { "key": "down", "name": pluginApi?.tr("settings.expandDirection.down") },
+            { "key": "up", "name": pluginApi?.tr("settings.expandDirection.up") },
+            { "key": "right", "name": pluginApi?.tr("settings.expandDirection.right") },
+            { "key": "left", "name": pluginApi?.tr("settings.expandDirection.left") }
         ]
         currentKey: root.expandDirection
         onSelected: function (key) {
@@ -167,13 +176,33 @@ ColumnLayout {
         defaultValue: "down"
     }
 
+    NToggle {
+        visible: root.isPerpendicular
+        Layout.fillWidth: true
+        label: pluginApi?.tr("settings.panelBackground.enabled.label")
+        description: pluginApi?.tr("settings.panelBackground.enabled.description")
+        checked: root.panelBackgroundEnabled
+        onToggled: checked => { root.panelBackgroundEnabled = checked; }
+        defaultValue: true
+    }
+
+    NColorChoice {
+        visible: root.isPerpendicular && root.panelBackgroundEnabled
+        Layout.fillWidth: true
+        label: pluginApi?.tr("settings.panelBackgroundColor.label")
+        description: pluginApi?.tr("settings.panelBackgroundColor.description")
+        currentKey: root.panelBackgroundColor
+        onSelected: key => { root.panelBackgroundColor = key; }
+        defaultValue: "surface"
+    }
+
     ColumnLayout {
         Layout.fillWidth: true
         spacing: Style.marginS
 
         NLabel {
-            label: "Border Radius"
-            description: "Roundness of the buttons (" + Math.round(root.borderRadius * 100) + "%)."
+            label: pluginApi?.tr("settings.borderRadius.label")
+            description: pluginApi ? pluginApi.tr("settings.borderRadius.description").replace("%1", Math.round(root.borderRadius * 100)) : ""
         }
 
         NSlider {
@@ -187,8 +216,8 @@ ColumnLayout {
     }
 
     NColorChoice {
-        label: "Focus Border Color"
-        description: "Color of the border shown on the focused workspace."
+        label: pluginApi?.tr("settings.focusBorderColor.label")
+        description: pluginApi?.tr("settings.focusBorderColor.description")
         currentKey: root.focusBorderColor
         onSelected: key => { root.focusBorderColor = key; }
         defaultValue: "none"
@@ -197,30 +226,30 @@ ColumnLayout {
     // --- Primary Button ---
 
     NText {
-        text: "Primary Button"
+        text: pluginApi?.tr("settings.primaryButton.title")
         pointSize: Style.fontSizeM
         font.bold: true
     }
 
     NToggle {
-        label: "Show Pill"
-        description: "Show a colored circle behind the main button icon."
+        label: pluginApi?.tr("settings.primaryButton.showPill.label")
+        description: pluginApi?.tr("settings.primaryButton.showPill.description")
         checked: root.primaryShowPill
         onToggled: checked => { root.primaryShowPill = checked; }
         defaultValue: true
     }
 
     NColorChoice {
-        label: "Symbol Color"
-        description: "Override the main button icon color."
+        label: pluginApi?.tr("settings.primaryButton.symbolColor.label")
+        description: pluginApi?.tr("settings.primaryButton.symbolColor.description")
         currentKey: root.primarySymbolColor
         onSelected: key => { root.primarySymbolColor = key; }
         defaultValue: "none"
     }
 
     NColorChoice {
-        label: "Pill Color"
-        description: "Override the main button pill color."
+        label: pluginApi?.tr("settings.primaryButton.pillColor.label")
+        description: pluginApi?.tr("settings.primaryButton.pillColor.description")
         currentKey: root.primaryPillColor
         onSelected: key => { root.primaryPillColor = key; }
         defaultValue: "none"
@@ -232,8 +261,8 @@ ColumnLayout {
         spacing: Style.marginS
 
         NLabel {
-            label: "Size"
-            description: "Size of the main button (" + Math.round(root.primarySize * 100) + "%)."
+            label: pluginApi?.tr("settings.primaryButton.size.label")
+            description: pluginApi ? pluginApi.tr("settings.primaryButton.size.description").replace("%1", Math.round(root.primarySize * 100)) : ""
         }
 
         NSlider {
@@ -249,30 +278,30 @@ ColumnLayout {
     // --- Secondary Buttons ---
 
     NText {
-        text: "Secondary Buttons"
+        text: pluginApi?.tr("settings.secondaryButtons.title")
         pointSize: Style.fontSizeM
         font.bold: true
     }
 
     NToggle {
-        label: "Show Pill"
-        description: "Show a colored circle behind each workspace icon."
+        label: pluginApi?.tr("settings.secondaryButtons.showPill.label")
+        description: pluginApi?.tr("settings.secondaryButtons.showPill.description")
         checked: root.secondaryShowPill
         onToggled: checked => { root.secondaryShowPill = checked; }
         defaultValue: true
     }
 
     NColorChoice {
-        label: "Symbol Color"
-        description: "Override the workspace icon color."
+        label: pluginApi?.tr("settings.secondaryButtons.symbolColor.label")
+        description: pluginApi?.tr("settings.secondaryButtons.symbolColor.description")
         currentKey: root.secondarySymbolColor
         onSelected: key => { root.secondarySymbolColor = key; }
         defaultValue: "none"
     }
 
     NColorChoice {
-        label: "Pill Color"
-        description: "Override the workspace pill color."
+        label: pluginApi?.tr("settings.secondaryButtons.pillColor.label")
+        description: pluginApi?.tr("settings.secondaryButtons.pillColor.description")
         currentKey: root.secondaryPillColor
         onSelected: key => { root.secondaryPillColor = key; }
         defaultValue: "none"
@@ -284,8 +313,8 @@ ColumnLayout {
         spacing: Style.marginS
 
         NLabel {
-            label: "Size"
-            description: "Size of the workspace pills (" + Math.round(root.secondarySize * 100) + "%)."
+            label: pluginApi?.tr("settings.secondaryButtons.size.label")
+            description: pluginApi ? pluginApi.tr("settings.secondaryButtons.size.description").replace("%1", Math.round(root.secondarySize * 100)) : ""
         }
 
         NSlider {
@@ -330,7 +359,7 @@ ColumnLayout {
             NTextInput {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 140
-                placeholderText: "Workspace name"
+                placeholderText: pluginApi?.tr("settings.workspaces.namePlaceholder")
                 text: wsRow.ws ? wsRow.ws.name : ""
                 onTextChanged: {
                     if (wsRow.ws && text !== wsRow.ws.name) {
@@ -342,7 +371,7 @@ ColumnLayout {
             NTextInput {
                 id: iconInput
                 Layout.preferredWidth: 120
-                placeholderText: "Icon name"
+                placeholderText: pluginApi?.tr("settings.workspaces.iconPlaceholder")
                 text: wsRow.ws ? wsRow.ws.icon : ""
                 onTextChanged: {
                     if (wsRow.ws && text !== wsRow.ws.icon) {
@@ -364,7 +393,7 @@ ColumnLayout {
 
             NIconButton {
                 icon: "search"
-                tooltipText: "Browse icons"
+                tooltipText: pluginApi?.tr("settings.mainIcon.browseTooltip")
                 onClicked: {
                     iconPicker.activeIndex = wsRow.index;
                     iconPicker.initialIcon = wsRow.ws ? wsRow.ws.icon : "star";
@@ -375,7 +404,7 @@ ColumnLayout {
 
             NIconButton {
                 icon: "trash"
-                tooltipText: "Remove workspace"
+                tooltipText: pluginApi?.tr("settings.workspaces.removeTooltip")
                 onClicked: {
                     root.workspaces.splice(wsRow.index, 1);
                     root.workspacesRevision++;
@@ -397,7 +426,7 @@ ColumnLayout {
     }
 
     NButton {
-        text: "Add Workspace"
+        text: pluginApi?.tr("settings.workspaces.add")
         icon: "plus"
         onClicked: {
             root.workspaces.push({ "name": "", "icon": "star" });
