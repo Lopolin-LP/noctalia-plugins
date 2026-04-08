@@ -1,0 +1,83 @@
+{
+  "widget": {
+    "tooltip": "Qualité de l'Air"
+  },
+  "scale": {
+    "us": "AQI US",
+    "eu": "AQI EU"
+  },
+  "location": {
+    "custom": "Personnalisé"
+  },
+  "unit": {
+    "ugm3": "µg/m³"
+  },
+  "levels": {
+    "good": "Bon",
+    "moderate": "Modéré",
+    "unhealthySensitive": "Malsain pour les groupes sensibles",
+    "unhealthy": "Malsain",
+    "veryUnhealthy": "Très malsain",
+    "hazardous": "Dangereux",
+    "fair": "Correct",
+    "poor": "Médiocre",
+    "veryPoor": "Très médiocre",
+    "extremelyPoor": "Extrêmement médiocre",
+    "unknown": "Inconnu"
+  },
+  "pollutants": {
+    "pm25": "PM2.5",
+    "pm10": "PM10",
+    "ozone": "O\u2083",
+    "no2": "NO\u2082",
+    "co": "CO",
+    "so2": "SO\u2082",
+    "pm25Value": "PM2.5 : {value} µg/m³",
+    "pm10Value": "PM10 : {value} µg/m³",
+    "ozoneValue": "O\u2083 : {value} µg/m³",
+    "no2Value": "NO\u2082 : {value} µg/m³",
+    "coValue": "CO : {value} µg/m³",
+    "so2Value": "SO\u2082 : {value} µg/m³",
+    "pm25Short": "PM2.5 : {value}",
+    "pm10Short": "PM10 : {value}"
+  },
+  "errors": {
+    "weatherDisabled": "Activez la météo dans les paramètres de Noctalia ou utilisez des coordonnées personnalisées",
+    "locationUnavailable": "Localisation non disponible pour le moment, nouvel essai..."
+  },
+  "panel": {
+    "title": "Qualité de l'Air",
+    "lastUpdate": "Dernière mise à jour",
+    "pollutants": "Polluants",
+    "refresh": "Rafraîchir",
+    "settings": "Paramètres",
+    "noData": "Aucune donnée disponible",
+    "loading": "Chargement..."
+  },
+  "settings": {
+    "aqiScale": "Échelle AQI",
+    "aqiScaleDesc": "Choisissez l'échelle de l'indice de qualité de l'air",
+    "aqiScaleUs": "AQI US (EPA)",
+    "aqiScaleEu": "AQI Européen",
+    "location": "Localisation",
+    "useNoctaliaLocation": "Utiliser la localisation Noctalia",
+    "useNoctaliaLocationDesc": "Utiliser la localisation configurée dans les paramètres de Noctalia",
+    "customLatitude": "Latitude",
+    "customLongitude": "Longitude",
+    "customLocationDesc": "Entrez les coordonnées manuellement",
+    "refreshInterval": "Intervalle de rafraîchissement",
+    "refreshIntervalDesc": "Minutes entre les mises à jour : ",
+    "boldText": "Texte en gras",
+    "boldTextDesc": "Afficher le nombre AQI en gras"
+  },
+  "desktop": {
+    "noData": "Pas de données",
+    "tipLeft": "Clic gauche : Ouvrir le panneau",
+    "tipMiddle": "Clic milieu : Rafraîchir",
+    "tipRight": "Clic droit : Paramètres"
+  },
+  "context": {
+    "refresh": "Rafraîchir",
+    "settings": "Paramètres"
+  }
+}
