@@ -22,8 +22,8 @@ ColumnLayout {
     spacing: Style.marginS
 
     NLabel {
-      label: "Animation delay"
-      description: "Delay between frames"
+      label: pluginApi?.tr("settings.delay.label") 
+      description: pluginApi?.tr("settings.delay.description")
     }
 
     NSlider {
