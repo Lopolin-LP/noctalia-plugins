@@ -112,8 +112,8 @@ ColumnLayout {
 
     NTextInput {
       Layout.fillWidth: true
-      label: pluginApi?.tr("settings.camFilterRegex.label") || "Camera filter regex"
-      description: pluginApi?.tr("settings.camFilterRegex.desc") || "Regex pattern to filter out camera applications"
+      label: pluginApi?.tr("settings.camFilterRegex.label")
+      description: pluginApi?.tr("settings.camFilterRegex.desc")
       placeholderText: "droidcam"
       text: root.camFilterRegex
       onTextChanged: root.camFilterRegex = text
