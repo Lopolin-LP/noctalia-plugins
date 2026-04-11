@@ -104,12 +104,12 @@ ColumnLayout {
             spacing: Style.marginS
 
             readonly property var tokens: [
-                { label: "Year",   value: "%Y" },
-                { label: "Month",  value: "%m" },
-                { label: "Day",    value: "%d" },
-                { label: "Hour",   value: "%H" },
-                { label: "Minute", value: "%M" },
-                { label: "Second", value: "%S" },
+                { label: pluginApi?.tr("settings.filenameTokens.year"),   value: "%Y" },
+                { label: pluginApi?.tr("settings.filenameTokens.month"),  value: "%m" },
+                { label: pluginApi?.tr("settings.filenameTokens.day"),    value: "%d" },
+                { label: pluginApi?.tr("settings.filenameTokens.hour"),   value: "%H" },
+                { label: pluginApi?.tr("settings.filenameTokens.minute"), value: "%M" },
+                { label: pluginApi?.tr("settings.filenameTokens.second"), value: "%S" },
             ]
 
             Repeater {
@@ -209,3 +209,4 @@ ColumnLayout {
         }
     }
 }
+

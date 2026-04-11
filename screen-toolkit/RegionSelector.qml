@@ -300,18 +300,18 @@ Variants {
             border.color: Qt.rgba(1,1,1,0.1); border.width: 1
             Row {
                 id: _hintRow; anchors.centerIn: parent; spacing: 0
-                NText { text: "Drag";         color: Qt.rgba(1,1,1,0.7); pointSize: Style.fontSizeXS; font.weight: Font.Bold }
-                NText { text: " to select";   color: Qt.rgba(1,1,1,0.4);  pointSize: Style.fontSizeXS }
+                NText { text: pluginApi?.tr("regionSelector.drag");        color: Qt.rgba(1,1,1,0.7); pointSize: Style.fontSizeXS; font.weight: Font.Bold }
+                NText { text: pluginApi?.tr("regionSelector.toSelect");    color: Qt.rgba(1,1,1,0.4);  pointSize: Style.fontSizeXS }
                 Item { width: 18; height: 1 }
                 Rectangle { width: 1; height: 14; color: Qt.rgba(1,1,1,0.25); anchors.verticalCenter: parent.verticalCenter }
                 Item { width: 18; height: 1 }
-                NText { text: "Click window"; color: Qt.rgba(1,1,1,0.7); pointSize: Style.fontSizeXS; font.weight: Font.Bold }
-                NText { text: " to snap";     color: Qt.rgba(1,1,1,0.4);  pointSize: Style.fontSizeXS }
+                NText { text: pluginApi?.tr("regionSelector.clickWindow"); color: Qt.rgba(1,1,1,0.7); pointSize: Style.fontSizeXS; font.weight: Font.Bold }
+                NText { text: pluginApi?.tr("regionSelector.toSnap");      color: Qt.rgba(1,1,1,0.4);  pointSize: Style.fontSizeXS }
                 Item { width: 18; height: 1 }
                 Rectangle { width: 1; height: 14; color: Qt.rgba(1,1,1,0.25); anchors.verticalCenter: parent.verticalCenter }
                 Item { width: 18; height: 1 }
-                NText { text: "Esc";          color: Qt.rgba(1,1,1,0.7); pointSize: Style.fontSizeXS; font.weight: Font.Bold }
-                NText { text: " to cancel";   color: Qt.rgba(1,1,1,0.4);  pointSize: Style.fontSizeXS }
+                NText { text: pluginApi?.tr("regionSelector.esc");         color: Qt.rgba(1,1,1,0.7); pointSize: Style.fontSizeXS; font.weight: Font.Bold }
+                NText { text: pluginApi?.tr("regionSelector.toCancel");    color: Qt.rgba(1,1,1,0.4);  pointSize: Style.fontSizeXS }
             }
         }
         MouseArea {
@@ -395,3 +395,4 @@ Variants {
         }
     }
 }
+

@@ -110,7 +110,23 @@
     "videoPathDesc": "Where recordings are saved. Leave empty for ~/Videos.",
     "filenameFormat": "Filename Format",
     "filenameFormatDesc": "Template for generated filenames. Extension is added automatically.",
-    "widgetSettings": "Widget Settings"
+    "widgetSettings": "Widget Settings",
+    "filenameTokens": {
+      "year": "Year",
+      "month": "Month",
+      "day": "Day",
+      "hour": "Hour",
+      "minute": "Minute",
+      "second": "Second"
+    }
+  },
+  "regionSelector": {
+    "drag": "Drag",
+    "toSelect": "to select",
+    "clickWindow": "Click window",
+    "toSnap": "to snap",
+    "esc": "Esc",
+    "toCancel": "to cancel"
   },
   "annotate": {
     "copied": "Copied to clipboard",
