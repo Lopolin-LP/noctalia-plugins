@@ -34,18 +34,14 @@ environment.systemPackages = [ pkgs.qt6.qtwebsockets ];
 ### Via Noctalia Plugin Manager (recommended)
 
 1. Open Noctalia Settings → **Plugins** tab
-2. Add this repository as a custom source:
-   ```
-   https://github.com/Pozzoo/noctalia-plugins
-   ```
-3. Find **Home Assistant** in the plugin list and click **Install**
-4. Enable the plugin and add the widget to your bar
+2. Find **Home Assistant** in the plugin list and click **Install**
+3. Enable the plugin and add the widget to your bar
 
 ### Manual Installation
 
 ```bash
 # Clone into your plugins directory
-git clone https://github.com/Pozzoo/noctalia-plugins ~/.config/noctalia/plugins/hassio
+git clone https://github.com/noctalia-dev/noctalia-plugins ~/.config/noctalia/plugins/hassio
 
 # Add to plugins.json
 ```
