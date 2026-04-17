@@ -1,3 +1,4 @@
+.pragma library
 // --- Backend interface ---
 // Every backend module must export the following three functions:
 //
