@@ -4,10 +4,10 @@
     "plugged_in_desc": "Sistem şarja takıldığında çalıştırılacak script.",
     "on_battery_label": "Bataryadayken",
     "on_battery_desc": "Sistem bataryadayken çalıştırılacak script.",
-    "env_vars_title": "Additional Environment Variables Provided",
+    "env_vars_title": "Sağlanan Ek Ortam Değişkenleri",
     "env_vars_percentage": "Batarya Yüzdesi",
     "env_vars_state": "Batarya Durumu (Şarj Oluyor, Boşalıyor, Şarj Edildi, vb.)",
-    "env_vars_rate": "Battery Charge rate (in Watts)",
+    "env_vars_rate": "Batarya Şarj hızı (Watts ile)",
     "env_vars_path": "OS Batarya Yolu (/sys/class/power_supply/...)"
   }
 }
